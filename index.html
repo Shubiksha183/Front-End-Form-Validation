@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>User Details Form</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <a href="/search.html" class="btn-search">Search Users</a>
+  <h1>User Details Form</h1>
+
+  <form id="myform" method="get" class="needs-validation" autocomplete="off" novalidate >
+
+    <div class="mb-3">
+      <label for="name" class="form-label">Name:</label>
+      <input type="text" name="name" id="name" maxlength="75" class="form-control" required placeholder="Enter your full name">
+      <div class="invalid-feedback" id="nameFeedback">
+        Name must have at least a single character
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="dob" class="form-label">D.O.B:</label>
+      <input type="date" name="dob" id="dob" class="form-control" min="1950-01-01" max="2010-12-12"  required>
+      <div class="invalid-feedback" id="dobFeedback">
+        Date of Birth cannot be empty.
+      </div>
+    </div>
+
+    <div class="mb-3" id="gender">
+      <p>Gender:</p>
+      <input type="radio" name="gender" id="male" value="Male" class="form-check-input" required>
+      <label for="male" class="form-check-label">Male</label>
+      <input type="radio" name="gender" id="female" value="Female" class="form-check-input" required>
+      <label for="female" class="form-check-label">Female</label>
+      <input type="radio" name="gender" id="others" value="Others" class="form-check-input" required>
+      <label for="others" class="form-check-label">Others</label>
+      <div class="invalid-feedback" id="genderFeedback">
+        Please choose a gender.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="state" class="form-label">State:</label>
+      <select id="state" name="state" class="form-select" required>
+        <option value="" disabled selected>Select a state</option>
+      </select>
+      <div class="invalid-feedback" id="stateFeedback">
+        State can't be empty
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="district" class="form-label">District:</label>
+      <select id="district" name="district" class="form-select" required>
+        <option value="" disabled selected>Select a district</option>
+      </select>
+      <div class="invalid-feedback" id="districtFeedback">
+        District can't be empty
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="pinCode" class="form-label">PinCode:</label>
+      <input type="tel" name="pinCode" id="pinCode" class="form-control" maxlength="7" required placeholder="Enter your pin code">
+      <div class="invalid-feedback" id="pinCodeFeedback">
+        PinCode must only contain numbers and should not start with 0.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="contactno" class="form-label">Contact No:</label>
+      <input type="tel" name="contactno" id="contactno" class="form-control" required onkeydown="validateNumber(event)" maxlength="10" placeholder="Enter your 10-digit contact number">
+      <div class="invalid-feedback" id="mobileFeedback">
+        Phone number must start with {6,7,8,9} and contains 10 digits.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="email" class="form-label">Email:</label>
+      <input type="text" name="email" id="email" class="form-control" required placeholder="Enter your email address">
+      <div class="invalid-feedback" id="emailFeedback">
+        Please enter a valid email address.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="pan" class="form-label">Pan Card No:</label>
+      <input type="text" name="pan" id="pan" class="form-control" required placeholder="Enter your PAN card number">
+      <div class="invalid-feedback" id="panFeedback">
+        PAN field cannot be empty.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="education">Education:</label>
+      <select id="education" class="form-select" required>
+        <option id="none" value="" disabled selected>Select your Education</option>
+        <option id="tenth">10th</option>
+        <option id="twelth">12th</option>
+        <option id="ug">UG</option>
+        <option id="pg">PG</option>
+      </select>
+      <div class="invalid-feedback" id="educationFeedback">
+        Please Select your Education
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="profilepic" class="form-label">Profile Picture:</label>
+      <input type="file" name="profilepic" id="profilepic" class="form-control" required>
+      <div class="invalid-feedback" id="profileFeedback">
+        Please select a file.
+      </div>
+      <small id="fileSizeDisplay" class="form-text text-muted"></small>
+    </div>
+
+    <div class="mb-3">
+      <label for="username" class="form-label">Username:</label>
+      <input type="text" name="username" id="username" maxlength="25" class="form-control" required placeholder="Choose a username">
+      <div class="invalid-feedback" id="usernameFeedback">
+        Invalid username
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="password" class="form-label">Password:</label>
+      <input type="password" name="password" id="password" class="form-control" required minlength="8" maxlength="32" placeholder="Enter a strong password">
+      <div class="invalid-feedback" id="passFeedback">
+        Password must have at least 8 characters
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="confirmPass" class="form-label">Confirm Password:</label>
+      <input type="password" name="confirmpass" id="confirmPass" class="form-control" required placeholder="Re-enter your password">
+      <div class="invalid-feedback" id="confirmPassFeedback">
+        Confirm Password should match the Password field.
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center gap-3 mt-4">
+      <input type="submit" class="btn btn-primary btn-lg px-4" value="Submit">
+      <input type="reset" class="btn btn-secondary btn-lg px-4" value="Reset">
+    </div>
+    
+  </form>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="/script.js"></script>
+</body>
+</html>
